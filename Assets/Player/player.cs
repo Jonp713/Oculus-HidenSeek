@@ -15,7 +15,10 @@ public class player : MonoBehaviour {
 
 	public bool oculusOn = false;
 		
-		
+	public Vector3 direction;
+
+	Vector3 velocityTo;
+	
 	void Update()
 	{
 
@@ -65,7 +68,7 @@ public class player : MonoBehaviour {
 	void InputMovement()
 	{
 
-		Vector3 direction = new Vector3(0,0,0);
+		direction = new Vector3(0,0,0);
 
 		if (Input.GetKey (KeyCode.W)) {
 
@@ -104,13 +107,24 @@ public class player : MonoBehaviour {
 		if (!tackleScript.tackled) {
 
 
-				if (direction != new Vector3(0,0,0)){
+				//if (direction != new Vector3(0,0,0)){
 
 					if (this.tag == "Mario") {
 
+						//rigidbody.AddForce(direction.normalized * speed * Time.deltaTime);
 
-
-						rigidbody.AddForce(direction.normalized * speed * Time.deltaTime);
+						velocityTo.x = direction.x;
+						velocityTo.z = direction.z;
+						velocityTo.y = 0;
+						
+						// get the direction it must walk in:
+						velocityTo = velocityTo.normalized;
+						// convert from local to world space and multiply by horizontal speed:
+						velocityTo = speed * velocityTo * Time.deltaTime * 100;
+						// keep rigidbody vertical velocity to preserve gravity action:
+						velocityTo.y = rigidbody.velocity.y;
+						// set new rigidbody velocity:
+						rigidbody.velocity = velocityTo;
 
 					}else{
 
@@ -120,7 +134,7 @@ public class player : MonoBehaviour {
 
 					}
 
-				}
+			//	}
 
 				if (rigidbody.velocity.magnitude > topSpeed) {
 					
@@ -172,16 +186,34 @@ public class player : MonoBehaviour {
 			syncStartPosition = rigidbody.position;
 		}
 	}
-	
+
+	public bool showEnd;
+	public string winners = "Test"; 
+
+
+	void OnGUI(){
+
+		if (showEnd) {
+
+
+			GUI.Button(new Rect(100, 100, 250, 100), winners);
+
+				}
+
+	}
 
 	[RPC]
 	void endGame(string Winners) {
 		
-		//print (Winners + " Win!");
+		print (Winners + " Win!");
 
-		GUI.Button (new Rect (100, 100, 250, 100), Winners + " Win!");
-
+		winners = Winners;
+		showEnd = true;
 		
+		//GUI.Button (new Rect (100, 100, 250, 100), Winners + " Win!");
+		
+		//GUI.TextField(new Rect (100, 100, 250, 100), Winners, 0, "Label");
+
 	}
 
 

@@ -57,14 +57,14 @@ public class NetworkManager : MonoBehaviour {
 
 		Debug.Log("Server Initialized");
 
-		SpawnPlayer(false);
+		SpawnPlayer(true);
 	}
 	
 	void OnConnectedToServer()
 	{
 		Debug.Log("Server Joined");
 
-		SpawnPlayer(true);
+		SpawnPlayer(false);
 	}
 	
 	private void SpawnPlayer(bool mario)
@@ -92,7 +92,7 @@ public class NetworkManager : MonoBehaviour {
 			break;
 		default:
 			startloc = new Vector3 (0f, 2f, 0f);
-			print("playertnumber above5");
+			//print("playertnumber above5");
 			break;
 		}
 

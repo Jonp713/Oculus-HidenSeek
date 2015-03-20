@@ -67,8 +67,8 @@ public class tackle : MonoBehaviour {
 			print ("Collided");
 
 			
-			networkView.RPC("endGame", RPCMode.Others, "Chasers");
-			endGame("Toads");
+			networkView.RPC("endGame", RPCMode.All, "Chasers");
+			//endGame("Toads");
 
 		}
 		
@@ -81,23 +81,34 @@ public class tackle : MonoBehaviour {
 	}
 
 	//variables to control the end GUI 
-	public bool showGUI;
+
+	public bool showEnd;
 	public string winners = "Test"; 
-	[RPC]
-	void endGame(string Winners) {
-		//sasses the string on to the function 
-		winners = Winners;
-		print (Winners + " Win!");
-		showGUI = true;
+	
+
+	void OnGUI(){
+		
+		if (showEnd) {
+
+			
+			GUI.Button(new Rect(100, 100, 250, 100), winners + "Win!");
+		}
 		
 	}
-	//displays who one after game is over 
-	void OnGUI () {
-		if (showGUI) {
-			GUI.Button (new Rect (100, 100, 250, 100), winners + " Win!");
-		}
-	}
 	
+	[RPC]
+	void endGame(string Winners) {
+		
+		print (Winners + " Win!");
+		
+		winners = Winners;
+		showEnd = true;
+		
+		//GUI.Button (new Rect (100, 100, 250, 100), Winners + " Win!");
+		
+		//GUI.TextField(new Rect (100, 100, 250, 100), Winners, 0, "Label");
+		
+	}
 
 }
 
