@@ -29,7 +29,7 @@ public class PlayerFollow : MonoBehaviour {
 					
 				}
 
-				gameObject.transform.position = new Vector3 (player.transform.position.x, 2.8f, player.transform.position.z);
+				gameObject.transform.position = new Vector3 (player.transform.position.x, player.transform.position.y + 2.8f, player.transform.position.z);
 				
 				
 			} else {

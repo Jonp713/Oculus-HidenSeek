@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-
-
-
 public class NetworkManager : MonoBehaviour {
-
+	
+	public bool showEnd = false;
+	public string winners = "";
 
 	private int playernumber;
 

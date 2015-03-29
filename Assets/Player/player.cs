@@ -17,25 +17,37 @@ public class player : MonoBehaviour {
 		
 	public Vector3 direction;
 
+	GameObject[] objects;
+
 	Vector3 velocityTo;
+
+	void Start(){
+
+		objects = GameObject.FindGameObjectsWithTag("Pacdot");
+
+	}
 	
 	void Update()
 	{
 
 		tackleScript = gameObject.GetComponent<tackle>();
 
-		GameObject[] objects = GameObject.FindGameObjectsWithTag("Pacdot");
+		objects = GameObject.FindGameObjectsWithTag("Pacdot");
 
 		if (objects.Length == 0) {
 
 			win = true;
-			networkView.RPC("endGame", RPCMode.All, "Mario");
+			networkView.RPC ("endGame", RPCMode.All, "Mario");
+
+		} else {
+
+			win = false;
+			showEnd = false;
 
 		}
 
 		if (networkView.isMine)
 		{
-
 
 			if(!tackleScript.tackled){
 
@@ -120,7 +132,7 @@ public class player : MonoBehaviour {
 						// get the direction it must walk in:
 						velocityTo = velocityTo.normalized;
 						// convert from local to world space and multiply by horizontal speed:
-						velocityTo = speed * velocityTo * Time.deltaTime * 100;
+						velocityTo = speed * velocityTo * Time.deltaTime * 10;
 						// keep rigidbody vertical velocity to preserve gravity action:
 						velocityTo.y = rigidbody.velocity.y;
 						// set new rigidbody velocity:
@@ -187,7 +199,7 @@ public class player : MonoBehaviour {
 		}
 	}
 
-	public bool showEnd;
+	public bool showEnd = false;
 	public string winners = "Test"; 
 
 
@@ -195,10 +207,9 @@ public class player : MonoBehaviour {
 
 		if (showEnd) {
 
-
 			GUI.Button(new Rect(100, 100, 250, 100), winners);
 
-				}
+		}
 
 	}
 
@@ -209,6 +220,14 @@ public class player : MonoBehaviour {
 
 		winners = Winners;
 		showEnd = true;
+
+		NetworkManager playerScript;
+		
+		playerScript = GameObject.FindWithTag("MainCamera").GetComponent<NetworkManager> ();
+		
+		playerScript.winners = winners;
+		
+		playerScript.showEnd = true;
 		
 		//GUI.Button (new Rect (100, 100, 250, 100), Winners + " Win!");
 		

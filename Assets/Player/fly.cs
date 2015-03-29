@@ -18,9 +18,7 @@ public class fly : MonoBehaviour {
 	Vector3 axis;
 
 	public Vector3 direction = new Vector3(0,0,0);
-
-
-
+	
 	float rotationY;
 	float rotationX;
 	float rotationZ;
@@ -31,14 +29,11 @@ public class fly : MonoBehaviour {
 
 	tackle tackleScript;
 
-
 	bool start = false;
 	
 	Vector3 temp;
 
 	public OVRPlayerController ovrdevice ;
-
-
 
 	void Start () {
 
@@ -208,9 +203,7 @@ public class fly : MonoBehaviour {
 		
 		//rigidbody.AddForce(direction.normalized * Time.deltaTime);
 
-		
-		if (direction != new Vector3 (0, 0, 0)) {
-
+		if (direction != new Vector3 (0, 0, 0) && tackleScript.tackled == false) {
 
 
 			//rigidbody.AddForce(direction.normalized * forwardSpeed * Time.deltaTime);
@@ -223,7 +216,7 @@ public class fly : MonoBehaviour {
 			// get the direction it must walk in:
 			speed = speed.normalized;
 			// convert from local to world space and multiply by horizontal speed:
-			speed = forwardSpeed * speed * Time.deltaTime * 100;
+			speed = forwardSpeed * speed * Time.deltaTime * 10;
 			// keep rigidbody vertical velocity to preserve gravity action:
 			speed.y = rigidbody.velocity.y;
 			// set new rigidbody velocity:

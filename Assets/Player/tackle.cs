@@ -94,7 +94,7 @@ public class tackle : MonoBehaviour {
 			GUI.Button(new Rect(100, 100, 250, 100), winners + "Win!");
 		}
 		
-	}
+	}	
 	
 	[RPC]
 	void endGame(string Winners) {
@@ -103,7 +103,15 @@ public class tackle : MonoBehaviour {
 		
 		winners = Winners;
 		showEnd = true;
-		
+
+		NetworkManager playerScript;
+
+		playerScript = GameObject.FindWithTag("MainCamera").GetComponent<NetworkManager> ();
+
+		playerScript.winners = winners;
+
+		playerScript.showEnd = true;
+
 		//GUI.Button (new Rect (100, 100, 250, 100), Winners + " Win!");
 		
 		//GUI.TextField(new Rect (100, 100, 250, 100), Winners, 0, "Label");
